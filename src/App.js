@@ -1,18 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addFolder } from './actions/addFolder'
-import { renameFolder } from './actions/renameFolder'
 
-import Folder from './containers/Folders'
+import Folder from './containers/Folder'
 import './App.css';
 
 const mapDispatchToProps = dispatch => ({
-  handleAddFolder: (folderName) => dispatch(addFolder(folderName)),
-  handleRenameFolder: (oldFolderId, newFolderName) => dispatch(renameFolder(oldFolderId, newFolderName))
+  handleAddFolder: (folderName) => dispatch(addFolder(folderName))
 })
 
 const mapStateToProps = state => ({
-  ...state
+  folders: state.folders
 })
 
 const App = ({ folders, handleAddFolder }) => {
@@ -21,9 +19,7 @@ const App = ({ folders, handleAddFolder }) => {
     <div className="App">
       {
         folders && folders.map(folder => (
-          <div key={folder.id}>
-            {folder.name}
-          </div>
+          <Folder key={folder.id} folder={folder} />
         ))
       }
       <form onSubmit={e => {
@@ -34,9 +30,7 @@ const App = ({ folders, handleAddFolder }) => {
         handleAddFolder(input.value)
         input.value = ''
       }}>
-        <input ref={node => {
-          input = node
-        }} />
+        <input ref={node => { input = node }} />
         <button type="submit">
           Add Todo
         </button>
@@ -45,4 +39,4 @@ const App = ({ folders, handleAddFolder }) => {
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App)
