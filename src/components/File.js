@@ -18,7 +18,7 @@ export default class File extends Component {
     render() {
         const { file } = this.props;
         return (
-            <div onClick={this.renameFileHandler}>
+            <div onDoubleClick={this.renameFileHandler}>
                 {file.name}
             </div>
         )
