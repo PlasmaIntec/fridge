@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  handleAddFolder: (folderName, parentFolderId) => dispatch(addFolder(folderName, parentFolderId))
+  handleAddFolder: (parentFolderId, folderName) => dispatch(addFolder(parentFolderId, folderName))
 })
 
 const App = ({ folders, handleAddFolder }) => {
@@ -24,7 +24,7 @@ const App = ({ folders, handleAddFolder }) => {
         if (!input.value.trim()) {
           return
         }
-        handleAddFolder(input.value, folders.id)
+        handleAddFolder(folders.id, input.value)
         input.value = ''
       }}>
         <input ref={node => { input = node }} />

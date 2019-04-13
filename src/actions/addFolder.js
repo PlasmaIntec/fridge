@@ -1,5 +1,5 @@
-export const addFolder = (folderName, parentFolderId) => ({
+export const addFolder = (parentFolderId, folderName) => ({
     type: 'ADD_FOLDER',
-    folderName,
-    parentFolderId
+    parentFolderId,
+    folderName
 })

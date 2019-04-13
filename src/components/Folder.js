@@ -8,8 +8,10 @@ export default class Folder extends Component {
         this.state = {
             showContents: false
         };
-        this.toggleShowContents = this.toggleShowContents.bind(this);
         this.renameFolderHandler = this.renameFolderHandler.bind(this);
+        this.addFolderHandler = this.addFolderHandler.bind(this);
+        this.addFileHandler = this.addFileHandler.bind(this);
+        this.toggleShowContents = this.toggleShowContents.bind(this);
     }
 
     renameFolderHandler(e) {
@@ -19,6 +21,24 @@ export default class Folder extends Component {
             return;
         }
         handleRenameFolder(folder.id, newName);
+    }
+
+    addFolderHandler() {
+        const { folder, handleAddFolder } = this.props;
+        const newName = window.prompt('CHOOSE NEW NAME') || '';
+        if (!newName.trim()) {
+            return;
+        }
+        handleAddFolder(folder.id, newName);
+    }
+
+    addFileHandler() {
+        const { folder, handleAddFile } = this.props;
+        const newName = window.prompt('CHOOSE NEW NAME') || '';
+        if (!newName.trim()) {
+            return;
+        }
+        handleAddFile(folder.id, newName);
     }
 
     toggleShowContents() {
@@ -33,7 +53,8 @@ export default class Folder extends Component {
                 <div onClick={this.toggleShowContents} onDoubleClick={this.renameFolderHandler}>
                     {folder.name}
                 </div>
-                <button onClick={e => console.log(folder)}>+Folder</button>
+                <button onClick={this.addFolderHandler}>+Folder</button>
+                <button onClick={this.addFileHandler}>+File</button>
                 {
                     showContents && folder && folder.folders.map(id => (
                         <ConnectedFolder key={id} id={id} />
@@ -43,8 +64,7 @@ export default class Folder extends Component {
                     showContents && files && files.map(id => (
                         <ConnectedFile key={id} id={id} />
                     ))
-                }    
-                
+                }                
             </div>
         )
     }
