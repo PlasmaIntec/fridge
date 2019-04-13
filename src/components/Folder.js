@@ -10,31 +10,37 @@ export default class Folder extends Component {
         };
         this.renameFolderHandler = this.renameFolderHandler.bind(this);
         this.addFolderHandler = this.addFolderHandler.bind(this);
+        this.deleteFolderHandler = this.deleteFolderHandler.bind(this);
         this.addFileHandler = this.addFileHandler.bind(this);
         this.toggleShowContents = this.toggleShowContents.bind(this);
     }
 
-    renameFolderHandler(e) {
-        const { folder, handleRenameFolder } = this.props;
-        const newName = window.prompt('CHOOSE NEW NAME') || '';
-        if (!newName.trim()) {
-            return;
-        }
-        handleRenameFolder(folder.id, newName);
-    }
-
     addFolderHandler() {
         const { folder, handleAddFolder } = this.props;
-        const newName = window.prompt('CHOOSE NEW NAME') || '';
+        const newName = window.prompt('ADD FOLDER') || '';
         if (!newName.trim()) {
             return;
         }
         handleAddFolder(folder.id, newName);
     }
 
+    renameFolderHandler(e) {
+        const { folder, handleRenameFolder } = this.props;
+        const newName = window.prompt('RENAME FOLDER') || '';
+        if (!newName.trim()) {
+            return;
+        }
+        handleRenameFolder(folder.id, newName);
+    }
+
+    deleteFolderHandler() {
+        const { folder, handleDeleteFolder } = this.props;
+        handleDeleteFolder(folder.id);
+    }
+
     addFileHandler() {
         const { folder, handleAddFile } = this.props;
-        const newName = window.prompt('CHOOSE NEW NAME') || '';
+        const newName = window.prompt('ADD FILE') || '';
         if (!newName.trim()) {
             return;
         }
@@ -51,10 +57,11 @@ export default class Folder extends Component {
         return (
             <div>
                 <div onClick={this.toggleShowContents} onDoubleClick={this.renameFolderHandler}>
-                    {folder.name}
+                    {`FILE ${folder.name} (${folder.id})`}
                 </div>
                 <button onClick={this.addFolderHandler}>+Folder</button>
                 <button onClick={this.addFileHandler}>+File</button>
+                <button onClick={this.deleteFolderHandler}>X</button>
                 {
                     showContents && folder && folder.folders.map(id => (
                         <ConnectedFolder key={id} id={id} />

@@ -8,7 +8,7 @@ export default class File extends Component {
 
     renameFileHandler() {
         const { file, handleRenameFile } = this.props;
-        const newName = window.prompt('CHOOSE NEW NAME') || '';
+        const newName = window.prompt('RENAME FILE') || '';
         if (!newName.trim()) {
             return;
         }

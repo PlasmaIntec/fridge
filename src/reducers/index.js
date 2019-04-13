@@ -17,8 +17,19 @@ const folders = (state = {}, action) => {
                     id: folderCount,
                     name: action.folderName,
                     folders: [],
-                    files: []
+                    files: [],
+                    parent: action.parentFolderId
                 }
+            };
+        case 'DELETE_FOLDER':
+            var tempState = { ...state };
+            var deleteFolder = tempState[action.folderId];
+            var parentFolder = state[deleteFolder.parent];
+            var deleteIndex = parentFolder.folders.indexOf(action.folderId);
+            parentFolder.folders.splice(deleteIndex, 1);
+            delete tempState[action.folderId];
+            return {
+                ...tempState
             };
         case 'RENAME_FOLDER':
             return {
@@ -44,7 +55,7 @@ const folders = (state = {}, action) => {
     }
 }
 
-const files = (state = [], action) => {
+const files = (state = {}, action) => {
     switch (action.type) {
         case 'ADD_FILE':
             return {
@@ -53,6 +64,12 @@ const files = (state = [], action) => {
                     id: fileCount,
                     name: action.fileName
                 }
+            };
+        case 'DELETE_FILE':
+            var tempState = { ...state };
+            delete tempState[action.fileId];
+            return {
+                ...tempState
             };
         case 'RENAME_FILE':
             return {
@@ -67,10 +84,11 @@ const files = (state = [], action) => {
     }
 }
 
-export default (state = {}, action) => {
+export default (state = {}, action) => { // TODO: HANDLE DANGLING FILES AFTER DELETE_FILE
     switch (action.type) {
         case 'ADD_FOLDER':
             folderCount++;
+        case 'DELETE_FOLDER':   
         case 'RENAME_FOLDER':
             return {
                 ...state,
@@ -83,6 +101,7 @@ export default (state = {}, action) => {
                 folders: folders(state.folders, action),
                 files: files(state.files, action)
             };
+        case 'DELETE_FILE':
         case 'RENAME_FILE':
             return {
                 ...state,

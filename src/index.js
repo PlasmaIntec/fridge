@@ -14,33 +14,39 @@ const initialState = {
             id: 0,
             name: '__ROOT',
             folders: [1, 2],
-            files: []
+            files: [],
+            parent: null
         },
         1: {
             id: 1,
             name: 'Summer',
             folders: [],
-            files: [1, 2]
+            files: [1, 2],
+            parent: 0
         },
         2: {
             id: 2,
             name: 'Winter',
             folders: [],
-            files: [3]
+            files: [3],
+            parent: 0
         }
     },
     files: {
         1: {
             id: 1,
-            name: 'hot hot hot'
+            name: 'hot hot hot',
+            parent: 1
         },
         2: {
             id: 2,
-            name: 'shall i compare thee'
+            name: 'shall i compare thee',
+            parent: 1
         },
         3: {
             id: 3,
-            name: 'polar'
+            name: 'polar',
+            parent: 2
         }
     }
 }
