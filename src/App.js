@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { addFolder } from './actions/addFolder'
 import { getFolder } from './selectors'
 
-import ConnectedFolder from './containers/Folder'
+import ConnectedRoot from './containers/Root'
 import './App.css';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -18,7 +18,7 @@ const App = ({ folders, handleAddFolder }) => {
   let input;
   return (
     <div className="App">
-      <ConnectedFolder id={0} />
+      <ConnectedRoot />
       <form onSubmit={e => {
         e.preventDefault()
         if (!input.value.trim()) {

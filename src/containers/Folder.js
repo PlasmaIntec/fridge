@@ -40,6 +40,7 @@ const mergeProps = (stateProps, dispatchProps) => ({
         })
         stateProps.descendantFolders.reduceRight((acc, id) => { // iterates right to left
             dispatchProps.deleteFolder(id);
+            return null;
         }, 0) // need initial value in case of empty array
         dispatchProps.deleteFolder(folderId);
     }
