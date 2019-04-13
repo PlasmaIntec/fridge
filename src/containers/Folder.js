@@ -1,21 +1,18 @@
-import React from 'react';
 import { connect } from 'react-redux'
 import { renameFolder } from '../actions/renameFolder'
+import { getFolder, getFiles } from '../selectors'
+
+import Folder from '../components/Folder.js'
+
+const mapStateToProps = (state, ownProps) => ({
+    folder: getFolder(state, +ownProps.id),
+    files: getFiles(state, +ownProps.id)
+})
 
 const mapDispatchToProps = (dispatch) => ({
     handleRenameFolder: (oldFolderId, newFolderName) => dispatch(renameFolder(oldFolderId, newFolderName))
 })
 
-const Folder = ({ folder, handleRenameFolder }) => (
-    <div onDoubleClick={(e) => {
-        var newName = window.prompt('CHOOSE NEW NAME') || ''
-        if (!newName.trim()) {
-            return
-        }
-        handleRenameFolder(folder.id, newName)
-    }}>
-        {folder.name}
-    </div>
-)
+const ConnectedFolder = connect(mapStateToProps, mapDispatchToProps)(Folder)
 
-export default connect(null, mapDispatchToProps)(Folder)
+export default ConnectedFolder

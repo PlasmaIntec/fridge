@@ -1,33 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addFolder } from './actions/addFolder'
+import { getFolder } from './selectors'
 
-import Folder from './containers/Folder'
+import ConnectedFolder from './containers/Folder'
 import './App.css';
 
-const mapDispatchToProps = dispatch => ({
-  handleAddFolder: (folderName) => dispatch(addFolder(folderName))
+const mapStateToProps = (state, ownProps) => ({
+  folders: getFolder(state, 0)
 })
 
-const mapStateToProps = state => ({
-  folders: state.folders
+const mapDispatchToProps = (dispatch) => ({
+  handleAddFolder: (folderName, parentFolderId) => dispatch(addFolder(folderName, parentFolderId))
 })
 
 const App = ({ folders, handleAddFolder }) => {
   let input;
   return (
     <div className="App">
-      {
-        folders && folders.map(folder => (
-          <Folder key={folder.id} folder={folder} />
-        ))
-      }
+      <ConnectedFolder id={0} />
       <form onSubmit={e => {
         e.preventDefault()
         if (!input.value.trim()) {
           return
         }
-        handleAddFolder(input.value)
+        handleAddFolder(input.value, folders.id)
         input.value = ''
       }}>
         <input ref={node => { input = node }} />

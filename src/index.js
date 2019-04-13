@@ -8,8 +8,46 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './reducers'
 
+const initialState = {
+    folders: {
+        0: {
+            id: 0,
+            name: '__ROOT',
+            folders: [1, 2],
+            files: []
+        },
+        1: {
+            id: 1,
+            name: 'Summer',
+            folders: [],
+            files: [1, 2]
+        },
+        2: {
+            id: 2,
+            name: 'Winter',
+            folders: [],
+            files: [3]
+        }
+    },
+    files: {
+        1: {
+            id: 1,
+            name: 'hot hot hot'
+        },
+        2: {
+            id: 2,
+            name: 'shall i compare thee'
+        },
+        3: {
+            id: 3,
+            name: 'polar'
+        }
+    }
+}
+
 const store = createStore(
-	rootReducer,
+    rootReducer,
+    initialState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 

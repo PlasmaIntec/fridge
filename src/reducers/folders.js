@@ -1,25 +1,33 @@
-import uuid from 'uuid/v4'
+var folderCount = 100; // TODO: CHANGE TO ZERO POST-TESTS
 
-const folders = (state = [], action) => {
+const folders = (state = {}, action) => {
     switch (action.type) {
         case 'ADD_FOLDER':
-            return [
+            folderCount++;
+            return {
                 ...state,
-                {
-                    id: uuid(),
-                    name: action.folderName
+                [action.parentFolderId]: { // let parent know child has been added
+                    ...state[action.parentFolderId],
+                    folders: [
+                        ...state[action.parentFolderId].folders,
+                        folderCount
+                    ]
+                },
+                [folderCount]: { // add child
+                    id: folderCount,
+                    name: action.folderName,
+                    folders: [],
+                    files: []
                 }
-            ]
+            }
         case 'RENAME_FOLDER':
-            return state.map(folder => {
-                if (folder.id === action.oldFolderId) {
-                    return {
-                        id: folder.id,
-                        name: action.newFolderName
-                    }
+            return {
+                ...state,
+                [action.oldFolderId]: {
+                    ...state[action.oldFolderId],
+                    name: action.newFolderName
                 }
-                return folder;
-            })
+            }
         default:
             return state;
     }
