@@ -50,6 +50,14 @@ const folders = (state = {}, action) => {
                     ]
                 }
             };
+        case 'DELETE_FILE':
+            var tempState = { ...state };
+            var parentFolder = tempState[action.folderId];
+            var deleteIndex = parentFolder.files.indexOf(action.fileId);
+            parentFolder.files.splice(deleteIndex, 1);
+            return {
+                ...tempState
+            };
         default:
             return state;
     }
@@ -62,9 +70,11 @@ const files = (state = {}, action) => {
                 ...state,
                 [fileCount]: {
                     id: fileCount,
-                    name: action.fileName
+                    name: action.fileName,
+                    parent: action.folderId
                 }
             };
+        case 'DELETE_FILE_WITHOUT_PARENT':
         case 'DELETE_FILE':
             var tempState = { ...state };
             delete tempState[action.fileId];
@@ -84,7 +94,7 @@ const files = (state = {}, action) => {
     }
 }
 
-export default (state = {}, action) => { // TODO: HANDLE DANGLING FILES AFTER DELETE_FILE
+export default (state = {}, action) => {
     switch (action.type) {
         case 'ADD_FOLDER':
             folderCount++;
@@ -96,17 +106,23 @@ export default (state = {}, action) => { // TODO: HANDLE DANGLING FILES AFTER DE
             };
         case 'ADD_FILE':
             fileCount++;
+        case 'DELETE_FILE':
             return {
                 ...state,
                 folders: folders(state.folders, action),
                 files: files(state.files, action)
             };
-        case 'DELETE_FILE':
+        case 'DELETE_FILE_WITHOUT_PARENT':
         case 'RENAME_FILE':
             return {
                 ...state,
                 files: files(state.files, action)
             };
+        case 'TOGGLE_SHOW_ALL':
+            return {
+                ...state,
+                showAll: !state.showAll
+            }
         default:
             return state;
     }

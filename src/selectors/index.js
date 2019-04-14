@@ -13,9 +13,9 @@ const getDescendantFolders = (state, id) => {
     ), [])
 }
 
-const getParentFolder = (state, id) => {
-    const folder = state.folders[id]
-    return state.folders[folder.parent]
+const getParentFolder = (state, id, isFolder = true) => {
+    const orphan = isFolder ? state.folders[id] : state.files[id]
+    return state.folders[orphan.parent]
 }
 
 const getFiles = (state, id) => {

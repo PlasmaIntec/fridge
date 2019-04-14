@@ -18,7 +18,7 @@ const App = ({ folders, handleAddFolder }) => {
   let input;
   return (
     <div className="App">
-      <ConnectedRoot />
+      <ConnectedRoot id={0} />
       <form onSubmit={e => {
         e.preventDefault()
         if (!input.value.trim()) {
@@ -29,7 +29,7 @@ const App = ({ folders, handleAddFolder }) => {
       }}>
         <input ref={node => { input = node }} />
         <button type="submit">
-          Add Todo
+          Add Folder
         </button>
       </form>
     </div>

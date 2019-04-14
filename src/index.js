@@ -48,7 +48,8 @@ const initialState = {
             name: 'polar',
             parent: 2
         }
-    }
+    },
+    showAll: true
 }
 
 const store = createStore(

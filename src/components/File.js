@@ -4,6 +4,7 @@ export default class File extends Component {
     constructor(props) {
         super(props);
         this.renameFileHandler = this.renameFileHandler.bind(this);
+        this.deleteFileHandler = this.deleteFileHandler.bind(this);
     }
 
     renameFileHandler() {
@@ -15,11 +16,17 @@ export default class File extends Component {
         handleRenameFile(file.id, newName);
     }
 
+    deleteFileHandler() {
+        const { file, handleDeleteFile } = this.props;
+        handleDeleteFile(file.id, file.parent);
+    }
+
     render() {
         const { file } = this.props;
         return (
             <div onDoubleClick={this.renameFileHandler}>
-                {file.name}
+                {file.name} 
+                <button onClick={this.deleteFileHandler}>X</button>
             </div>
         )
     }

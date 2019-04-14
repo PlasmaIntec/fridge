@@ -53,22 +53,22 @@ export default class Folder extends Component {
 
     render() {
         const { showContents } = this.state;
-        const { folder, files } = this.props;
+        const { folder, files, showAll } = this.props;
         return (
             <div>
                 <div onClick={this.toggleShowContents} onDoubleClick={this.renameFolderHandler}>
-                    {`FILE ${folder.name} (${folder.id})`}
+                    {`FOLDER ${folder.name} (${folder.id})`}
                 </div>
                 <button onClick={this.addFolderHandler}>+Folder</button>
                 <button onClick={this.addFileHandler}>+File</button>
                 <button onClick={this.deleteFolderHandler}>X</button>
                 {
-                    showContents && folder && folder.folders.map(id => (
+                    (showAll || showContents) && folder && folder.folders.map(id => (
                         <ConnectedFolder key={id} id={id} />
                     ))
                 }    
                 {
-                    showContents && files && files.map(id => (
+                    (showAll || showContents) && files && files.map(id => (
                         <ConnectedFile key={id} id={id} />
                     ))
                 }                

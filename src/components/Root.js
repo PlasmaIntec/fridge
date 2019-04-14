@@ -28,18 +28,19 @@ export default class Root extends Component {
     }
 
     render() {
-        const { folder, files } = this.props;
+        const { folder, files, showAll, handleToggleShowAll } = this.props;
         return (
             <div>
                 <button onClick={this.addFolderHandler}>+Folder</button>
                 <button onClick={this.addFileHandler}>+File</button>
+                <button onClick={handleToggleShowAll}>{showAll ? 'COLLAPSE ALL' : 'SHOW ALL'}</button>
                 {
-                    folder && folder.folders.map(id => (
+                    (showAll || folder) && folder.folders.map(id => (
                         <ConnectedFolder key={id} id={id} />
                     ))
                 }    
                 {
-                    files && files.map(id => (
+                    (showAll || files) && files.map(id => (
                         <ConnectedFile key={id} id={id} />
                     ))
                 }                
