@@ -55,7 +55,7 @@ export default class Folder extends Component {
         const { showContents } = this.state;
         const { folder, files, showAll } = this.props;
         return (
-            <div>
+            <div className='folder'>
                 <div onClick={this.toggleShowContents} onDoubleClick={this.renameFolderHandler}>
                     {`FOLDER ${folder.name} (${folder.id})`}
                 </div>
