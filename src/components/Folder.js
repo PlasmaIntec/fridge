@@ -3,19 +3,7 @@ import ConnectedFolder from '../containers/Folder.js';
 import ConnectedFile from '../containers/File.js';
 
 export default class Folder extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showContents: false
-        };
-        this.renameFolderHandler = this.renameFolderHandler.bind(this);
-        this.addFolderHandler = this.addFolderHandler.bind(this);
-        this.deleteFolderHandler = this.deleteFolderHandler.bind(this);
-        this.addFileHandler = this.addFileHandler.bind(this);
-        this.toggleShowContents = this.toggleShowContents.bind(this);
-    }
-
-    addFolderHandler() {
+    addFolderHandler = () => {
         const { folder, handleAddFolder } = this.props;
         const newName = window.prompt('ADD FOLDER') || '';
         if (!newName.trim()) {
@@ -24,7 +12,7 @@ export default class Folder extends Component {
         handleAddFolder(folder.id, newName);
     }
 
-    renameFolderHandler(e) {
+    renameFolderHandler = (e) => {
         const { folder, handleRenameFolder } = this.props;
         const newName = window.prompt('RENAME FOLDER') || '';
         if (!newName.trim()) {
@@ -33,12 +21,12 @@ export default class Folder extends Component {
         handleRenameFolder(folder.id, newName);
     }
 
-    deleteFolderHandler() {
+    deleteFolderHandler = () => {
         const { folder, handleDeleteFolder } = this.props;
         handleDeleteFolder(folder.id);
     }
 
-    addFileHandler() {
+    addFileHandler = () => {
         const { folder, handleAddFile } = this.props;
         const newName = window.prompt('ADD FILE') || '';
         if (!newName.trim()) {
@@ -47,13 +35,13 @@ export default class Folder extends Component {
         handleAddFile(folder.id, newName);
     }
 
-    toggleShowContents() {
-        this.setState({ showContents: !this.state.showContents })
+    toggleShowContents = () => {
+        const { folder, handleToggleShow } = this.props;
+        handleToggleShow(folder.id, !folder.show);
     }
 
     render() {
-        const { showContents } = this.state;
-        const { folder, files, showAll } = this.props;
+        const { folder, files } = this.props;
         return (
             <div className='folder'>
                 <div onClick={this.toggleShowContents} onDoubleClick={this.renameFolderHandler}>
@@ -63,12 +51,12 @@ export default class Folder extends Component {
                 <button onClick={this.addFileHandler}>+File</button>
                 <button onClick={this.deleteFolderHandler}>X</button>
                 {
-                    (showAll || showContents) && folder && folder.folders.map(id => (
+                    (folder.show) && folder && folder.folders.map(id => (
                         <ConnectedFolder key={id} id={id} />
                     ))
                 }    
                 {
-                    (showAll || showContents) && files && files.map(id => (
+                    (folder.show) && files && files.map(id => (
                         <ConnectedFile key={id} id={id} />
                     ))
                 }                

@@ -3,13 +3,7 @@ import ConnectedFolder from '../containers/Folder.js';
 import ConnectedFile from '../containers/File.js';
 
 export default class Root extends Component {
-    constructor(props) {
-        super(props);
-        this.addFolderHandler = this.addFolderHandler.bind(this);
-        this.addFileHandler = this.addFileHandler.bind(this);
-    }
-
-    addFolderHandler() {
+    addFolderHandler = () => {
         const { folder, handleAddFolder } = this.props;
         const newName = window.prompt('ADD FOLDER') || '';
         if (!newName.trim()) {
@@ -18,7 +12,7 @@ export default class Root extends Component {
         handleAddFolder(folder.id, newName);
     }
 
-    addFileHandler() {
+    addFileHandler = () => {
         const { folder, handleAddFile } = this.props;
         const newName = window.prompt('ADD FILE') || '';
         if (!newName.trim()) {
@@ -27,20 +21,25 @@ export default class Root extends Component {
         handleAddFile(folder.id, newName);
     }
 
+    toggleShowHandler = () => {
+        const { handleToggleShowAll, showAll } = this.props;
+        handleToggleShowAll(!showAll);
+    }
+
     render() {
-        const { folder, files, showAll, handleToggleShowAll } = this.props;
+        const { folder, files, showAll } = this.props;
         return (
             <div>
                 <button onClick={this.addFolderHandler}>+Folder</button>
                 <button onClick={this.addFileHandler}>+File</button>
-                <button onClick={handleToggleShowAll}>{showAll ? 'COLLAPSE ALL' : 'SHOW ALL'}</button>
+                <button onClick={this.toggleShowHandler}>{showAll ? 'COLLAPSE ALL' : 'SHOW ALL'}</button>
                 {
-                    (showAll || folder) && folder.folders.map(id => (
+                    folder && folder.folders.map(id => (
                         <ConnectedFolder key={id} id={id} />
                     ))
                 }    
                 {
-                    (showAll || files) && files.map(id => (
+                    files && files.map(id => (
                         <ConnectedFile key={id} id={id} />
                     ))
                 }                

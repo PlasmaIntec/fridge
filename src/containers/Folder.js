@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { renameFolder } from '../actions/renameFolder'
+import { showFolder } from '../actions/showFolder'
 import { addFolder } from '../actions/addFolder'
 import { deleteFolder } from '../actions/deleteFolder'
 import { addFile } from '../actions/addFile'
@@ -19,16 +20,16 @@ const mapStateToProps = (state, ownProps) => ({
     files: getFiles(state, +ownProps.id),
     descendantFolders: getDescendantFolders(state, +ownProps.id),
     descendantFiles: getDescendantFiles(state, +ownProps.id),
-    parent: getParentFolder(state, +ownProps.id),
-    showAll: state.showAll
+    parent: getParentFolder(state, +ownProps.id)
 })
 
 const mapDispatchToProps = (dispatch) => ({
     handleAddFile: (folderId, fileName) => dispatch(addFile(folderId, fileName)),
     handleAddFolder: (folderId, fileName) => dispatch(addFolder(folderId, fileName)),
+    handleRenameFolder: (oldFolderId, newFolderName) => dispatch(renameFolder(oldFolderId, newFolderName)),
+    handleToggleShow: (folderId, status) => dispatch(showFolder(folderId, status)),
     deleteFolder: (folderId) => dispatch(deleteFolder(folderId)),
-    deleteFileWithoutParent: (fileId) => dispatch(deleteFileWithoutParent(fileId)),
-    handleRenameFolder: (oldFolderId, newFolderName) => dispatch(renameFolder(oldFolderId, newFolderName))
+    deleteFileWithoutParent: (fileId) => dispatch(deleteFileWithoutParent(fileId))
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

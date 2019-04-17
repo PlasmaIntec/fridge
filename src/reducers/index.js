@@ -18,7 +18,8 @@ const folders = (state = {}, action) => {
                     name: action.folderName,
                     folders: [],
                     files: [],
-                    parent: action.parentFolderId
+                    parent: action.parentFolderId,
+                    show: true
                 }
             };
         case 'DELETE_FOLDER':
@@ -39,6 +40,14 @@ const folders = (state = {}, action) => {
                     name: action.newFolderName
                 }
             };
+        case 'SHOW_FOLDER':
+            return {
+                ...state,
+                [action.folderId]: {
+                    ...state[action.folderId],
+                    show: action.show
+                }
+            }
         case 'ADD_FILE':
             return {
                 ...state,
@@ -100,6 +109,7 @@ export default (state = {}, action) => {
             folderCount++;
         case 'DELETE_FOLDER':   
         case 'RENAME_FOLDER':
+        case 'SHOW_FOLDER':
             return {
                 ...state,
                 folders: folders(state.folders, action)
@@ -118,11 +128,11 @@ export default (state = {}, action) => {
                 ...state,
                 files: files(state.files, action)
             };
-        case 'TOGGLE_SHOW_ALL':
+        case 'SHOW_ALL':
             return {
                 ...state,
-                showAll: !state.showAll
-            }
+                showAll: action.show
+            };
         default:
             return state;
     }

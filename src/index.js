@@ -15,21 +15,24 @@ const initialState = {
             name: '__ROOT',
             folders: [1, 2],
             files: [],
-            parent: null
+            parent: null,
+            show: false
         },
         1: {
             id: 1,
             name: 'Summer',
             folders: [],
             files: [1, 2],
-            parent: 0
+            parent: 0,
+            show: false
         },
         2: {
             id: 2,
             name: 'Winter',
             folders: [],
             files: [3],
-            parent: 0
+            parent: 0,
+            show: false
         }
     },
     files: {
@@ -49,7 +52,7 @@ const initialState = {
             parent: 2
         }
     },
-    showAll: true
+    showAll: false
 }
 
 const store = createStore(

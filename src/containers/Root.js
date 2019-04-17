@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
 import { renameFolder } from '../actions/renameFolder'
 import { addFolder } from '../actions/addFolder'
+import { showFolder } from '../actions/showFolder'
 import { addFile } from '../actions/addFile'
-import { toggleShowAll } from '../actions/toggleShowAll'
+import { showAll } from '../actions/showAll'
 import { 
     getFolder, 
     getFiles,
@@ -24,9 +25,21 @@ const mapDispatchToProps = (dispatch) => ({
     handleAddFile: (folderId, fileName) => dispatch(addFile(folderId, fileName)),
     handleAddFolder: (folderId, fileName) => dispatch(addFolder(folderId, fileName)),
     handleRenameFolder: (oldFolderId, newFolderName) => dispatch(renameFolder(oldFolderId, newFolderName)),
-    handleToggleShowAll: () => dispatch(toggleShowAll())
+    showFolder: (folderId, status) => dispatch(showFolder(folderId, status)),
+    toggleShowAll: (status) => dispatch(showAll(status)) 
 })
 
-const ConnectedRoot = connect(mapStateToProps, mapDispatchToProps)(Root)
+const mergeProps = (stateProps, dispatchProps) => ({
+    ...stateProps,
+    ...dispatchProps,
+    handleToggleShowAll: (status) => {
+        stateProps.descendantFolders.forEach(folder => {
+            dispatchProps.showFolder(folder, status)
+        });
+        dispatchProps.toggleShowAll(status);
+    }
+})
+
+const ConnectedRoot = connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)
 
 export default ConnectedRoot
