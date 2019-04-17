@@ -2,7 +2,25 @@ import React, { Component } from 'react';
 import ConnectedFolder from '../containers/Folder.js';
 import ConnectedFile from '../containers/File.js';
 
-export default class Root extends Component {
+import classnames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+import Button from '@material-ui/core/Button';
+
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+    },
+    cssRoot: {
+        color: theme.palette.getContrastText(purple[500]),
+        backgroundColor: purple[500],
+        '&:hover': {
+            backgroundColor: purple[700],
+        },
+    },
+});
+
+class Root extends Component {
     addFolderHandler = () => {
         const { folder, handleAddFolder } = this.props;
         const newName = window.prompt('ADD FOLDER') || '';
@@ -27,12 +45,12 @@ export default class Root extends Component {
     }
 
     render() {
-        const { folder, files, showAll } = this.props;
+        const { folder, files, showAll, classes } = this.props;
         return (
             <div>
-                <button onClick={this.addFolderHandler}>+Folder</button>
-                <button onClick={this.addFileHandler}>+File</button>
-                <button onClick={this.toggleShowHandler}>{showAll ? 'COLLAPSE ALL' : 'SHOW ALL'}</button>
+                <Button variant="contained" color="primary" className={classes.button} onClick={this.addFolderHandler}>+Folder</Button>
+                <Button variant="contained" color="primary" className={classes.button} onClick={this.addFileHandler}>+File</Button>
+                <Button variant="contained" color="secondary" className={classnames(classes.button, classes.cssRoot)} onClick={this.toggleShowHandler}>{showAll ? 'COLLAPSE ALL' : 'SHOW ALL'}</Button>
                 {
                     folder && folder.folders.map(id => (
                         <ConnectedFolder key={id} id={id} />
@@ -47,3 +65,5 @@ export default class Root extends Component {
         )
     }
 }
+
+export default withStyles(styles)(Root);
