@@ -72,7 +72,7 @@ class Folder extends Component {
             <ExpansionPanel className={classes.root} expanded={folder.show} >
                 <ExpansionPanelSummary onClick={this.toggleShowContents} expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h5" component="h2" onDoubleClick={this.renameFolderHandler}>
-                        {`FOLDER ${folder.name} (${folder.id})`}
+                        {folder.name}
                     </Typography>
                 </ExpansionPanelSummary>     
                 <ExpansionPanelDetails className={classes.details}>    

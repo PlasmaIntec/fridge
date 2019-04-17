@@ -13,6 +13,8 @@ import {
 
 import Root from '../components/Root.js'
 
+import faker from 'faker';
+
 const mapStateToProps = (state) => ({
     folder: getFolder(state, 0),
     files: getFiles(state, 0),
@@ -22,8 +24,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    handleAddFile: (folderId, fileName) => dispatch(addFile(folderId, fileName)),
-    handleAddFolder: (folderId, fileName) => dispatch(addFolder(folderId, fileName)),
+    handleAddFile: (fileName) => dispatch(addFile(0, fileName)),
+    handleAddFolder: (fileName) => dispatch(addFolder(0, fileName)),
     handleRenameFolder: (oldFolderId, newFolderName) => dispatch(renameFolder(oldFolderId, newFolderName)),
     showFolder: (folderId, status) => dispatch(showFolder(folderId, status)),
     toggleShowAll: (status) => dispatch(showAll(status)) 
@@ -32,6 +34,9 @@ const mapDispatchToProps = (dispatch) => ({
 const mergeProps = (stateProps, dispatchProps) => ({
     ...stateProps,
     ...dispatchProps,
+    handleAddRandomFolder: () => {
+        dispatchProps.handleAddFolder(faker.random.word());
+    },
     handleToggleShowAll: (status) => {
         stateProps.descendantFolders.forEach(folder => {
             dispatchProps.showFolder(folder, status)

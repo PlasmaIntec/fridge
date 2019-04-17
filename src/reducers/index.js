@@ -1,5 +1,5 @@
-var folderCount = 100; // TODO: CHANGE TO ZERO POST-TESTS
-var fileCount = 100; // TODO: CHANGE TO ZERO POST-TESTS
+var folderCount = localStorage.getItem('__FOLDERCOUNT') || 100; // TODO: CHANGE TO ZERO POST-TESTS
+var fileCount = localStorage.getItem('__FILECOUNT') || 100; // TODO: CHANGE TO ZERO POST-TESTS
 
 const folders = (state = {}, action) => {
     switch (action.type) {
@@ -104,9 +104,11 @@ const files = (state = {}, action) => {
 }
 
 export default (state = {}, action) => {
+    localStorage.setItem('__STATE', JSON.stringify(state));
     switch (action.type) {
         case 'ADD_FOLDER':
             folderCount++;
+            localStorage.setItem('__FOLDERCOUNT', folderCount);
         case 'DELETE_FOLDER':   
         case 'RENAME_FOLDER':
         case 'SHOW_FOLDER':
@@ -116,6 +118,7 @@ export default (state = {}, action) => {
             };
         case 'ADD_FILE':
             fileCount++;
+            localStorage.setItem('__FILECOUNT', fileCount);
         case 'DELETE_FILE':
             return {
                 ...state,
